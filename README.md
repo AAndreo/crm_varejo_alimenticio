@@ -31,14 +31,14 @@ Este projeto tem como objetivo desenvolver um modelo de Machine Learning capaz d
 
 ---
 
-# Metodologia
+## Metodologia
 
 <img width="100%" src="img/metodologia.png">
 
 
 ---
 
-# Modelos Avaliados
+## Modelos Avaliados
 
 Foram avaliados diversos modelos de classificação:
 
@@ -65,7 +65,7 @@ Foram avaliados diversos modelos de classificação:
 </p>
 
 ---
-# Avaliação da Campanha
+## Avaliação da Campanha
 
 A seleção dos clientes foi realizada utilizando percentis da probabilidade prevista pelo modelo.
 
@@ -78,7 +78,7 @@ Principais resultados:
 
 ---
 
-# Simulação Financeira
+## Simulação Financeira
 
 Simulação realizada para uma campanha com **1.000.000 de clientes**.
 
@@ -105,7 +105,7 @@ Contato apenas dos **15% clientes com maior score**.
 
 ---
 
-# Tecnologias Utilizadas
+## Tecnologias Utilizadas
 
 - Python
 - Pandas
@@ -120,7 +120,7 @@ Contato apenas dos **15% clientes com maior score**.
 
 ---
 
-# Principais Aprendizados
+## Principais Aprendizados
 
 Durante o desenvolvimento deste projeto foram aplicados conceitos de:
 
@@ -140,7 +140,7 @@ Durante o desenvolvimento deste projeto foram aplicados conceitos de:
 
 ---
 
-# Conclusão
+## Conclusão
 Este projeto demonstra como técnicas de Machine Learning podem apoiar decisões estratégicas de marketing.
 
 A utilização do modelo Random Forest permitiu identificar o grupo de clientes com maior propensão de compra, elevando a taxa de resposta de aproximadamente **15% para 56%** e maximizando o lucro esperado da campanha por meio da segmentação da base de clientes.
