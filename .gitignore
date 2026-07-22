@@ -1,0 +1,22 @@
+# Ignora os arquivos da pasta dados
+**/data/*.*
+
+# Ignora os arquivos da pasta tests e temp
+**/tests/*.*
+**/temp/
+
+# Ignora o arquivo .env e arquivos teste.*
+**/crm_varejo_alimenticio/.env
+**/crm_varejo_alimenticio/teste.*
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/

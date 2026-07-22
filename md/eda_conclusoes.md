@@ -1,0 +1,173 @@
+## Conclusões das Análises Exploratórias
+- ### `Variáveis categóricas e binárias`
+- Variáveis binárias com forte desbalanceamento: Complain, AcceptedCmp1..5 com mais de 90% = 0.
+- Education
+    - Aproximadamente 50% da base com nível educacional Graduation, seguido por Phd + Master com cerca de 38% juntos.
+    - Insight: Base com alto nível educacional, podendo influenciar comportamento de compra de produtos premium.
+    - Podemos agrupar em baixo_nivel_educacional (Basic + 2n Cycle), medio_nivel_educacional (Graduation) e alto_nivel_educational (PhD + Msater).
+- Marital_Status
+    - Aproximadamente 64% da base é formada por Married + Together.
+    - Categorias raras: Alone, Absurd, YOLO. Podemos agrupar.
+    - Insight: Forte presença de família/casais, podendo influenciar o consumo, com + gastos com compras familiares.
+- Complain
+    - 99% dos clientes nunca reclamaram.
+    - Insight: Baixo poder preditivo (quase constante).
+- Response (target)
+    - Confirma a baixa taxa de conversão - 15%
+    - Classe desbalanceada.
+- AcceptedCmp1..5
+    - Insight: Campanhas anteriores tiveram baixa adesão, entre 1% e 7% (Campanhas ineficientes).
+    - Podemos criar a variável total_campanhas_aceitas.
+
+- ### `Variáveis numéricas`
+- Quase todas as variáveis NÃO são normais
+- Forte assimetria à direita (skew positivo)
+- Muitos outliers
+- Caudas longas, principalmente gasto (Mnt*) e compras (*Purchases)
+- Year_Birth
+    - Pequena assimetria
+    - A maioria dos nascidos esta entre 1959 e 1977
+    - Alguns outliers muito antigos (1890-1900)
+    - Podemos transformar em idade e criar faixas etárias
+- Income
+	- Forte assimetria a direita
+	- A maioria tem renda entre 35303 e 68522
+	- Possui outliers com valores altissimos
+    - Podemos criar faixas de rendas
+- Kidhome e Teenhome
+	- Variáveis discretas (0,1,2)
+	- A grande maioria tem de 0 a 1 filhos
+	- Podemos criar as variáveis tem_filhos = (0 ou 1) e total_filhos
+- Recency
+	- Distribuição quase normal
+	- A maioria esta entre 24 e 74 dias desde a última compra 
+    - Podemos criar a variável faixa de recencia
+- MntWines, MntFruits, MntMeatProducts, MntFishProducts, MntSweetProducts, MntGoldProducts (Total de gastos)
+	- Todas com forte assimetria a direita
+	- Poucos clientes concentram maiores gastos
+	- MntWines: a maioria gastou entre 23.75 e 504.25
+	- MntFruits: a maioria gastou entre 1 e 33
+	- MntMeatProducts: a maioria gastou entre 16 e 232  
+	- MntFishProducts:  a maioria gastou entre 3 e 50
+	- MntSweetProducts: a maioria gastou entre 1 e 33
+	- MntGoldProducts: a maioria gastou entre 9 e 56
+	- Podemos criar total_gasto e ticket_medio
+- NumWebPurchases, NumCatalogPurchases, NumStorePurchases, NumDealsPurchases (número de compras)
+	- Assimetria a direita
+	- Muitos clientes concentram poucas compras
+	- NumDealsPurchases: a maioria tem entre 1 e 3 compras
+	- NumWebPurchases: a maioria tem entre 2 e 6 compras
+	- NumCatalogPurchases: a maioria tem entre 0 e 4 compras
+	- NumStorePurchases: a maioria tem entre 3 e 8 compras
+	- Podemos criar as variáveis total_compras e canal_preferido
+- NumWebVisitsMonth
+	- Assimetria a direita
+	- A maioria tem entre 3 e 7 visitas ao site no último mês
+- Z_CostContact & Z_Revenue
+	- Sem variância
+	- Retirar do dataset    
+
+### `Feature Engineering`
+Após nossa análise iremos criar essas variáveis derivadas:
+- idade
+- faixa_etaria
+- faixa_renda_anual
+- tem_filhos = (0 ou 1)
+- total_filhos
+- total_gasto 
+- pct_gasto_vinhos
+- pct_gasto_frutas
+- pct_gasto_carnes
+- pct_gasto_peixes
+- pct_gasto_doces
+- pct_gasto_premium
+- total_compras
+- pct_compra_web
+- pct_compra_catalog
+- pct_compra_store
+- pct_compra_deals
+- ticket_medio
+- total_campanhas_aceitas
+- cliente_aceita_campanha = (0 ou 1)
+- faixa_recencia    
+
+- ### `Variáveis categóricas e binárias`
+- faixa_etaria
+    - A maioria dos clientes são pessoas mais velhas, mais de 68% estão acima dos 50 anos.
+    - Clientes jovens quase inexistentes (0.09%)
+    - Perfil de consumidor mais maduro, possivel maior poder aquisitivo, tendencia a produtos premium.
+- faixa_renda_anual
+    - Na criação dessa variável foi utilizado o método `qcut`, que faz uma divisão mais balanceada das classes.
+    - Facilita comparação da taxa de resposta entre os grupos.
+- tem_filhos
+    - A grande maioria dos clientes tem filhos (71.52%)
+    - Clientes com filhos podem comprar mais produtos alimenticios, procurar mais descontos, gastar menos com produtos premium
+    - Clientes sem filhos podem comprar mais produtos premium
+- cliente_aceita_campanha
+    - A grande maioria dos clientes não é adepto a campanhas (79%)
+    - Isso confirma a baixa taxa de resposta das campanhas anteriores 
+- faixa_recencia
+    - Pouca concentração de clientes inativos (8.84%)
+    - A maioria da base esta Muito Recente, Recente, Pouco Ativo
+    - Clientes recentes costumam ter uma maior taxa de resposta e maior engajamento
+- canal_preferencial
+    - A maioria dos clientes (78%) preferem as compras em lojas fisicas
+    - Vendas concentradas em canais fisicos
+    - A web ainda representa uma fatia (15%) importante para os clientes
+
+- ### `Variáveis numéricas`
+- Idade
+	- Pequena assimetria a direita
+	- A maioria dos clientes esta na faixa entre 49 e 67 anos.
+	- Foram identificados clientes com mais de 120 anos. Pode ser erro de cadastro, data inválida. Necessário tratamento.
+    - Clientes jovens quase inexistentes.
+   	- Perfil de consumidor mais maduro, possivel maior poder aquisitivo, tendencia a produtos premium.
+- total_filhos
+	- Variável discreta (0,1,2,3)
+	- A maioria dos clientes possui 0 e 1 filhos.
+	- A predominancia são clientes com 1 filho.
+	- Isso sugere familia pequenas
+- total_gasto
+	- Forte assimetria a direita 
+	- A maioria dos clientes de gasto total entre 68.75 e 1045.50
+	- Poucos clientes concentram maiores gastos
+	- Maior concentração de clientes com menores gastos
+- pct_gasto_vinhos
+	- Distribuição quase simétrica
+	- A maioria dos clientes concentram entre 29% e 64% do gasto médio em vinhos
+	- Categoria com alta procura
+	- Maiores gastos médios sugerem clientes premium
+- pct_gasto_frutas
+	- Forte assimetria a direita
+	- A maioria dos clientes concentram entre 1% e 7% do gasto médio em frutas
+	- A maioria consome poucas frutas
+- pct_gasto_carnes
+	- Distribuição quase simétrica
+	- A maioria dos clientes concentram entre 16% e 33% do gasto médio em carnes
+	- Categoria também relevante
+- pct_gasto_peixes
+	- Forte assimetria a direita
+	- A maioria dos clientes concentram entre 1% e 10% do gasto médio em peixes
+	- Pouca concentração de consumidores mais frequentes
+- pct_gasto_doces
+	- Assimetria a direita
+	- A maioria dos clientes concentram entre 1% e 7% do gasto médio em doces
+	- Altissima concentração de baixo consumo dessa categoria
+- pct_gasto_premium
+	- Forte assimetria a direita
+	- A maioria dos clientes concentram entre 4% e 17% do gasto médio em produtos premium
+	- Maior concentração de clientes NÃO premuim
+- total_compras
+	- Distribuição quase simetrica
+	- A maioria dos clientes efetuou entre 8 e 21 compras
+	- Existe uma clara divisão entre compradores ocasionais (maioria) e frequentes
+- ticket_medio
+	- Forte assimetria a direita
+	- A maioria dos clientes tem ticket médio entre 9.60 e 45.25
+	- Grande concentração de tickets de valor baixo/médio
+	- Alguns clientes tem tickets com valores elevados, sendo o maior valor de 1679
+	- Sugere clientes ocasionais premuim com consumo de alto valor
+- total_campanhas_aceitas
+	- Variável discreta (0,1,2,3,4)
+	- A maioria nunca aceitou uma campanha anterior
+	- Poucos clientes aceitam campanhas constantes
